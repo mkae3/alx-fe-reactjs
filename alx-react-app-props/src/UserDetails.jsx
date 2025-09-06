@@ -1,15 +1,15 @@
 import { useContext } from "react";
 import UserContext from "./UserContext";
 
-function UserDetails() {
-  const user = useContext(UserContext);
+function UserProfile() {
+  const userData = useContext(UserContext);
 
   return (
     <div>
-      <h3>تفاصيل المستخدم</h3>
-      <p>البريد الإلكتروني: {user.email}</p>
+      <p>Name: {userData.name}</p>
+      <p>Email: {userData.email}</p>
     </div>
   );
 }
 
-export default UserDetails;
+export default UserProfile;
