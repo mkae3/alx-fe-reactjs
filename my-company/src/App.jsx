@@ -1,23 +1,21 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./componets/Home";
-import About from "./componets/About";
-import Services from "./componets/Services";
-import Contact from "./componets/Contact";
-import Navbar from "./componets/Navbar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";   // ✅ استيراد النافبار
+import Home from "./Home";
+import About from "./About";
+import Services from "./Services";
+import Contact from "./Contact";
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </div>
-    </Router>
+    <BrowserRouter>
+      <Navbar />   {/* ✅ إضافة النافبار */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
