@@ -1,4 +1,4 @@
-import { useRecipeStore } from '../store/recipeStore';
+import { useRecipeStore } from './recipeStore';
 
 const DeleteRecipeButton = ({ recipeId, onDeleted }) => {
   const deleteRecipe = useRecipeStore((state) => state.deleteRecipe);
@@ -14,3 +14,4 @@ const DeleteRecipeButton = ({ recipeId, onDeleted }) => {
 };
 
 export default DeleteRecipeButton;
+

@@ -1,30 +1,58 @@
-import { useState } from 'react';
-import { useRecipeStore } from '../store/recipeStore';
+// src/components/EditRecipeForm.jsx
+import { useState, useEffect } from 'react';
+import { useRecipeStore } from './recipeStore';
 
-const EditRecipeForm = ({ recipe }) => {
+const EditRecipeForm = ({ recipeId }) => {
+  const recipe = useRecipeStore((state) =>
+    state.recipes.find((r) => r.id === recipeId)
+  );
   const updateRecipe = useRecipeStore((state) => state.updateRecipe);
-  const [title, setTitle] = useState(recipe.title);
-  const [description, setDescription] = useState(recipe.description);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    updateRecipe({ id: recipe.id, title, description });
-    alert('Recipe updated!');
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+  });
+
+  useEffect(() => {
+    if (recipe) {
+      setFormData({
+        title: recipe.title,
+        description: recipe.description,
+      });
+    }
+  }, [recipe]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault(); // مهم جداً لتجنب إعادة تحميل الصفحة
+    if (recipe) {
+      updateRecipe(recipe.id, formData);
+      alert('تم تحديث الوصفة!');
+    }
+  };
+
+  if (!recipe) return <p>الوصفة غير موجودة</p>;
+
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
-      <h3>Edit Recipe</h3>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        required
       />
       <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        name="description"
+        value={formData.description}
+        onChange={handleChange}
+        required
       />
-      <button type="submit">Save Changes</button>
+      <button type="submit">حفظ التعديلات</button>
     </form>
   );
 };
