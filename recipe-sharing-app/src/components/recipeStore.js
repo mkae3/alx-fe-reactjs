@@ -4,8 +4,10 @@ export const useRecipeStore = create((set, get) => ({
   recipes: [],
   favorites: [],
   recommendations: [],
+  searchTerm: '',
+  filteredRecipes: [],
 
-  // Recipes management
+  // Task 1: Recipe management
   addRecipe: (recipe) =>
     set((state) => ({
       recipes: [...state.recipes, { ...recipe, id: Date.now() }],
@@ -23,7 +25,18 @@ export const useRecipeStore = create((set, get) => ({
       recipes: state.recipes.filter((recipe) => recipe.id !== id),
     })),
 
-  // Favorites management
+  // Task 2: Search & filtering
+  setSearchTerm: (term) =>
+    set({ searchTerm: term }, false, 'setSearchTerm'),
+
+  filterRecipes: () =>
+    set((state) => ({
+      filteredRecipes: state.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+      ),
+    })),
+
+  // Task 3: Favorites & recommendations
   addFavorite: (recipeId) =>
     set((state) => ({
       favorites: [...state.favorites, recipeId],
@@ -34,7 +47,6 @@ export const useRecipeStore = create((set, get) => ({
       favorites: state.favorites.filter((id) => id !== recipeId),
     })),
 
-  // Recommendations (mock implementation)
   generateRecommendations: () => {
     const { recipes, favorites } = get();
     const recommended = recipes.filter(
