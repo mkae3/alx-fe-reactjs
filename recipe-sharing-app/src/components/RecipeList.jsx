@@ -8,7 +8,7 @@ const RecipeList = () => {
   // فلترة تلقائية كل ما تغيّر مصطلح البحث
   useEffect(() => {
     filterRecipes();
-  }, [searchTerm]);
+  }, [filterRecipes, searchTerm]);
 
   const displayRecipes = searchTerm ? filteredRecipes : recipes;
 
