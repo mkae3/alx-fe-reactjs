@@ -1,17 +1,16 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-export const useRecipeStore = create((set) => ({
+export const useRecipeStore = create((set, get) => ({
   recipes: [],
-  searchTerm: '',
-  filteredRecipes: [],
+  favorites: [],
+  recommendations: [],
 
-  // إضافة وصفة جديدة
+  // Recipes management
   addRecipe: (recipe) =>
     set((state) => ({
       recipes: [...state.recipes, { ...recipe, id: Date.now() }],
     })),
 
-  // تعديل وصفة موجودة
   updateRecipe: (id, updatedRecipe) =>
     set((state) => ({
       recipes: state.recipes.map((recipe) =>
@@ -19,20 +18,28 @@ export const useRecipeStore = create((set) => ({
       ),
     })),
 
-  // حذف وصفة
   deleteRecipe: (id) =>
     set((state) => ({
       recipes: state.recipes.filter((recipe) => recipe.id !== id),
     })),
 
-  // تحديد مصطلح البحث
-  setSearchTerm: (term) => set({ searchTerm: term }),
-
-  // تصفية الوصفات حسب مصطلح البحث
-  filterRecipes: () =>
+  // Favorites management
+  addFavorite: (recipeId) =>
     set((state) => ({
-      filteredRecipes: state.recipes.filter((recipe) =>
-        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-      ),
+      favorites: [...state.favorites, recipeId],
     })),
+
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId),
+    })),
+
+  // Recommendations (mock implementation)
+  generateRecommendations: () => {
+    const { recipes, favorites } = get();
+    const recommended = recipes.filter(
+      (recipe) => !favorites.includes(recipe.id) && Math.random() > 0.5
+    );
+    set({ recommendations: recommended });
+  },
 }));
