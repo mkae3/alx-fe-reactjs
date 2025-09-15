@@ -1,69 +1,60 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
-import { fetchUserData } from "../services/githubService";
+import React, { useState } from 'react';
+import { fetchUserData } from '../services/githubService';
 
 const Search = () => {
-  const [username, setUsername] = useState("");
-  const [location, setLocation] = useState("");
-  const [minRepos, setMinRepos] = useState(0);
-  const [users, setUsers] = useState([]);
+  const [username, setUsername] = useState('');
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const handleSearch = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+    setError('');
+    setUser(null);
+
     try {
-      const result = await fetchUserData(username, location, minRepos);
-      if (result.length === 0) {
-        setError("Looks like we can't find the user");
+      const data = await fetchUserData(username);
+      if (data) {
+        setUser(data);
+      } else {
+        setError("Looks like we cant find the user");
       }
-      setUsers(result);
     } catch (err) {
-      setError("Looks like we can't find the user");
+      setError("Looks like we cant find the user");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       <form onSubmit={handleSearch}>
         <input
           type="text"
-          placeholder="Username"
+          placeholder="Enter GitHub username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          style={{ padding: '8px', width: '250px', marginRight: '10px' }}
         />
-        <input
-          type="text"
-          placeholder="Location (optional)"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Min Repos (optional)"
-          value={minRepos}
-          onChange={(e) => setMinRepos(Number(e.target.value))}
-        />
-        <button type="submit">Search</button>
+        <button type="submit" style={{ padding: '8px 12px' }}>
+          Search
+        </button>
       </form>
 
       {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <div>
-        {users.map((user) => (
-          <div key={user.id} style={{ marginTop: "10px" }}>
-            <img src={user.avatar_url} alt={user.login} width={50} />
-            <p>{user.login}</p>
-            <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-              View Profile
-            </a>
-          </div>
-        ))}
-      </div>
+      {user && (
+        <div style={{ marginTop: '20px' }}>
+          <img src={user.avatar_url} alt={user.login} width="100" />
+          <h2>{user.login}</h2>
+          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
+            View Profile
+          </a>
+        </div>
+      )}
     </div>
   );
 };
