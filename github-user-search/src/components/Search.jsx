@@ -18,8 +18,8 @@ const Search = () => {
     try {
       const data = await fetchUserData(username);
       setUserData(data);
-    } catch (err) {
-      setError("Looks like we can't find the user");
+    } catch (error) {
+      setError("Looks like we cant find the user"); // ✅ مصححة
     } finally {
       setLoading(false);
     }
@@ -40,13 +40,8 @@ const Search = () => {
         </button>
       </form>
 
-      {/* حالة تحميل */}
       {loading && <p>Loading...</p>}
-
-      {/* حالة خطأ */}
       {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {/* عرض بيانات المستخدم */}
       {userData && (
         <div style={{ marginTop: "20px" }}>
           <img
