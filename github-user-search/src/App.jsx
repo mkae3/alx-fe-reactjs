@@ -1,14 +1,14 @@
+// src/App.jsx
 import React from "react";
+import Search from "./components/Search";
 
 function App() {
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h1 style={{ color: "navy", textAlign: "center" }}>
+    <div>
+      <h1 style={{ textAlign: "center", color: "navy" }}>
         GitHub User Search
       </h1>
-      <p style={{ textAlign: "center" }}>
-        Start building the search component here!
-      </p>
+      <Search />
     </div>
   );
 }
