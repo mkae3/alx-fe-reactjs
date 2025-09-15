@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-vars */
+// src/components/Search.jsx
 import React, { useState } from "react";
-import { fetchUsers } from "../services/githubService";
+import { fetchUserData } from "../services/githubService"; // ← هنا الاستيراد مهم
 
 const Search = () => {
   const [username, setUsername] = useState("");
-  const [location, setLocation] = useState("");
-  const [minRepos, setMinRepos] = useState("");
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -14,78 +13,47 @@ const Search = () => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    setUsers([]);
+    setUser(null);
 
     try {
-      const result = await fetchUsers({ username, location, minRepos });
-      if (result.length === 0) {
-        setError("Looks like we can't find the user");
+      const data = await fetchUserData(username);
+      if (data.message === "Not Found") {
+        setError("Looks like we cant find the user");
       } else {
-        setUsers(result);
+        setUser(data);
       }
-    } catch (error) {
-      setError("Error fetching users. Try again later.");
+    } catch (err) {
+      setError("Looks like we cant find the user");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>GitHub User Search</h2>
-      <form onSubmit={handleSearch} style={{ marginBottom: "20px" }}>
+    <div>
+      <form onSubmit={handleSearch}>
         <input
           type="text"
-          placeholder="Username"
           value={username}
+          placeholder="Enter GitHub username"
           onChange={(e) => setUsername(e.target.value)}
-          required
-          style={{ marginRight: "10px" }}
-        />
-        <input
-          type="text"
-          placeholder="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          style={{ marginRight: "10px" }}
-        />
-        <input
-          type="number"
-          placeholder="Min Repos"
-          value={minRepos}
-          onChange={(e) => setMinRepos(e.target.value)}
-          style={{ marginRight: "10px" }}
         />
         <button type="submit">Search</button>
       </form>
 
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-
-      <div>
-        {users.map((user) => (
-          <div
-            key={user.id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              marginBottom: "10px",
-            }}
-          >
-            <img
-              src={user.avatar_url}
-              alt={user.login}
-              style={{ width: "50px", borderRadius: "50%", marginRight: "10px" }}
-            />
-            <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-              {user.login}
-            </a>
-          </div>
-        ))}
-      </div>
+      {user && (
+        <div>
+          <img src={user.avatar_url} alt={user.login} width="100" />
+          <h3>{user.login}</h3>
+          <a href={user.html_url} target="_blank" rel="noreferrer">
+            View Profile
+          </a>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Search;
-``
