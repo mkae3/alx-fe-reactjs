@@ -3,58 +3,59 @@ import React, { useState } from 'react';
 import { fetchUserData } from '../services/githubService';
 
 const Search = () => {
-  const [username, setUsername] = useState('');
-  const [user, setUser] = useState(null);
+  const [query, setQuery] = useState('');
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    if (!query) return;
+
     setLoading(true);
     setError('');
-    setUser(null);
-
     try {
-      const data = await fetchUserData(username);
-      if (data) {
-        setUser(data);
-      } else {
+      const results = await fetchUserData(query);
+      if (results.length === 0) {
         setError("Looks like we cant find the user");
+        setUsers([]);
+      } else {
+        setUsers(results);
       }
     } catch (err) {
       setError("Looks like we cant find the user");
+      setUsers([]);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div>
       <form onSubmit={handleSearch}>
         <input
           type="text"
-          placeholder="Enter GitHub username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          style={{ padding: '8px', width: '250px', marginRight: '10px' }}
+          placeholder="Search GitHub users..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
-        <button type="submit" style={{ padding: '8px 12px' }}>
-          Search
-        </button>
+        <button type="submit">Search</button>
       </form>
 
       {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p>{error}</p>}
 
-      {user && (
-        <div style={{ marginTop: '20px' }}>
-          <img src={user.avatar_url} alt={user.login} width="100" />
-          <h2>{user.login}</h2>
-          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-            View Profile
-          </a>
-        </div>
-      )}
+      <div>
+        {/* هنا المستعملين غادي يتعرضو بـ map */}
+        {users.map((user) => (
+          <div key={user.id}>
+            <img src={user.avatar_url} alt={user.login} width={50} />
+            <a href={user.html_url} target="_blank" rel="noopener noreferrer">
+              {user.login}
+            </a>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
