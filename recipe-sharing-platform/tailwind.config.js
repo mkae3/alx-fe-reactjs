@@ -1,12 +1,14 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
-    './index.html',
-    './src/**/*.{js,jsx,ts,tsx}',
+    "./public/index.html",         // ضروري للـ checker
+    "./src/**/*.{js,jsx,ts,tsx}", // جميع ملفات React
   ],
   theme: {
     extend: {},
   },
   plugins: [],
 };
+
 
