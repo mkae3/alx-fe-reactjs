@@ -1,5 +1,9 @@
+// src/components/AddRecipeForm.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+// Remove validate function from this file and import it from validate.js
+import { validate } from '../utils/validate';
 
 function AddRecipeForm() {
   const [title, setTitle] = useState('');
@@ -11,32 +15,28 @@ function AddRecipeForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validation
-    const newErrors = {};
-    if (!title.trim()) newErrors.title = 'Title is required.';
-    if (!ingredients.trim() || ingredients.split(',').length < 2)
-      newErrors.ingredients = 'Please enter at least two ingredients, separated by commas.';
-    if (!instructions.trim() || instructions.split('\n').length < 2)
-      newErrors.instructions = 'Please enter at least two steps.';
-
+    // use the validate function
+    const newErrors = validate({ title, ingredients, instructions });
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // For now, just log the data (later you can save to backend)
+      // create new recipe object (for now just log it)
       const newRecipe = {
         id: Date.now(),
-        title,
-        ingredients: ingredients.split(',').map((item) => item.trim()),
-        instructions: instructions.split('\n').map((item) => item.trim()),
+        title: title.trim(),
+        ingredients: ingredients.split(',').map((item) => item.trim()).filter(Boolean),
+        instructions: instructions.split('\n').map((item) => item.trim()).filter(Boolean),
       };
+
       console.log('New Recipe:', newRecipe);
 
       // Reset form
       setTitle('');
       setIngredients('');
       setInstructions('');
+      setErrors({});
 
-      // Redirect to home (optional)
+      // Optionally navigate back to home
       navigate('/');
     }
   };
