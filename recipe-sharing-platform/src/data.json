@@ -3,18 +3,62 @@
     "id": 1,
     "title": "Spaghetti Carbonara",
     "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/400x250",
+    "ingredients": [
+      "200g spaghetti",
+      "100g pancetta",
+      "2 large eggs",
+      "50g Parmesan cheese",
+      "Black pepper"
+    ],
+    "instructions": [
+      "Cook spaghetti according to package instructions.",
+      "Fry pancetta until crispy.",
+      "Whisk eggs and Parmesan together.",
+      "Combine spaghetti with pancetta and egg mixture.",
+      "Season with black pepper and serve immediately."
+    ]
   },
   {
     "id": 2,
     "title": "Chicken Tikka Masala",
     "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/400x250",
+    "ingredients": [
+      "500g chicken breast",
+      "150g yogurt",
+      "2 tsp garam masala",
+      "1 onion, chopped",
+      "400g canned tomatoes",
+      "100ml cream"
+    ],
+    "instructions": [
+      "Marinate chicken with yogurt and spices for 1 hour.",
+      "Grill chicken until cooked.",
+      "Sauté onion until golden, add tomatoes and simmer.",
+      "Add grilled chicken and cream, simmer for 10 minutes.",
+      "Serve hot with rice or naan."
+    ]
   },
   {
     "id": 3,
     "title": "Vegetable Stir Fry",
     "summary": "A colorful mix of fresh vegetables sautéed in a savory sauce.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/400x250",
+    "ingredients": [
+      "1 red bell pepper",
+      "1 yellow bell pepper",
+      "100g broccoli",
+      "2 carrots",
+      "2 tbsp soy sauce",
+      "1 tsp sesame oil"
+    ],
+    "instructions": [
+      "Chop all vegetables into bite-sized pieces.",
+      "Heat sesame oil in a pan.",
+      "Add vegetables and stir fry for 5-7 minutes.",
+      "Add soy sauce and cook for another 2 minutes.",
+      "Serve immediately with rice or noodles."
+    ]
   }
 ]
