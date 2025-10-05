@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Remove validate function from this file and import it from validate.js
-import { validate } from '../utils/validate';
+// Remove validate function from this file.
+// Import it from a new file below.
+import { validate } from '../utils/validateRecipe';
 
 function AddRecipeForm() {
   const [title, setTitle] = useState('');
@@ -15,17 +16,20 @@ function AddRecipeForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // use the validate function
+    // استخدام validate
     const newErrors = validate({ title, ingredients, instructions });
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // create new recipe object (for now just log it)
+      // تحويل instructions لـ steps
+      const steps = instructions.split('\n').map((s) => s.trim()).filter(Boolean);
+      const ingList = ingredients.split(',').map((s) => s.trim()).filter(Boolean);
+
       const newRecipe = {
         id: Date.now(),
         title: title.trim(),
-        ingredients: ingredients.split(',').map((item) => item.trim()).filter(Boolean),
-        instructions: instructions.split('\n').map((item) => item.trim()).filter(Boolean),
+        ingredients: ingList,
+        steps,
       };
 
       console.log('New Recipe:', newRecipe);
@@ -36,7 +40,7 @@ function AddRecipeForm() {
       setInstructions('');
       setErrors({});
 
-      // Optionally navigate back to home
+      // Redirect to home
       navigate('/');
     }
   };
