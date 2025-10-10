@@ -3,50 +3,65 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const FormikForm = () => {
+  // Initial values for the form
   const initialValues = {
     username: "",
     email: "",
     password: ""
   };
 
+  // Validation schema using Yup
   const validationSchema = Yup.object({
-    username: Yup.string().required("اسم المستخدم مطلوب"),
+    username: Yup.string().required("Username is required"),
     email: Yup.string()
-      .email("صيغة البريد غير صحيحة")
-      .required("البريد الإلكتروني مطلوب"),
+      .email("Invalid email format")
+      .required("Email is required"),
     password: Yup.string()
-      .min(6, "يجب أن تكون كلمة المرور 6 أحرف على الأقل")
-      .required("كلمة المرور مطلوبة")
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required")
   });
 
+  // Submit handler
   const handleSubmit = (values, { resetForm }) => {
-    console.log("تم إرسال البيانات:", values);
-    alert(`تم تسجيل ${values.username} بنجاح!`);
+    console.log("Formik form submitted:", values);
+    alert(`User ${values.username} registered successfully!`);
+
+    // Simulate mock API call
+    // Example: fetch("https://jsonplaceholder.typicode.com/users", { ... })
     resetForm();
   };
 
   return (
     <div className="form-container">
-      <h2>نموذج التسجيل (باستخدام Formik)</h2>
+      <h2>User Registration (Formik Form)</h2>
+
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         <Form>
-          <label>اسم المستخدم:</label>
+          <label>Username:</label>
           <Field type="text" name="username" />
-          <ErrorMessage name="username" component="p" style={{ color: "red" }} />
+          <ErrorMessage
+            name="username"
+            component="p"
+            style={{ color: "red" }}
+          />
 
-          <label>البريد الإلكتروني:</label>
+          <label>Email:</label>
           <Field type="email" name="email" />
           <ErrorMessage name="email" component="p" style={{ color: "red" }} />
 
-          <label>كلمة المرور:</label>
+          <label>Password:</label>
           <Field type="password" name="password" />
-          <ErrorMessage name="password" component="p" style={{ color: "red" }} />
+          <ErrorMessage
+            name="password"
+            component="p"
+            style={{ color: "red" }}
+          />
 
-          <button type="submit">تسجيل</button>
+          <button type="submit">Register</button>
         </Form>
       </Formik>
     </div>

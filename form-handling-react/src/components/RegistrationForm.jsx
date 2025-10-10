@@ -1,69 +1,65 @@
 import React, { useState } from "react";
 
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: ""
-  });
-
+  // Separate states for each input
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // التحقق من الحقول
-    if (!formData.username || !formData.email || !formData.password) {
-      setError("الرجاء ملء جميع الحقول");
+    // Basic validation
+    if (!username || !email || !password) {
+      setError("Please fill in all fields.");
       return;
     }
 
     setError("");
 
-    // محاكاة إرسال البيانات إلى API
-    console.log("تم تسجيل المستخدم:", formData);
-    alert(`تم تسجيل ${formData.username} بنجاح!`);
+    // Simulate API call
+    const userData = { username, email, password };
+    console.log("User registered:", userData);
+    alert(`User ${username} registered successfully!`);
+
+    // Reset form
+    setUsername("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
     <div className="form-container">
-      <h2>نموذج التسجيل (بطريقة Controlled)</h2>
+      <h2>User Registration (Controlled Form)</h2>
       <form onSubmit={handleSubmit}>
-        <label>اسم المستخدم:</label>
+        <label>Username:</label>
         <input
           type="text"
           name="username"
-          value={formData.username}
-          onChange={handleChange}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
 
-        <label>البريد الإلكتروني:</label>
+        <label>Email:</label>
         <input
           type="email"
           name="email"
-          value={formData.email}
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label>كلمة المرور:</label>
+        <label>Password:</label>
         <input
           type="password"
           name="password"
-          value={formData.password}
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <button type="submit">تسجيل</button>
+        <button type="submit">Register</button>
       </form>
     </div>
   );
