@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -16,29 +16,31 @@ function App() {
   const handleLogin = () => setIsAuthenticated(true);
 
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login onLogin={handleLogin} />} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
 
-      {/* Protected Profile Route with Nested Routes */}
-      <Route
-        path="/profile/*"
-        element={
-          <ProtectedRoute isAuthenticated={isAuthenticated}>
-            <Profile />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="details" element={<ProfileDetails />} />
-        <Route path="settings" element={<ProfileSettings />} />
-      </Route>
+        {/* Protected Profile Route with Nested Routes */}
+        <Route
+          path="/profile/*"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Profile />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="details" element={<ProfileDetails />} />
+          <Route path="settings" element={<ProfileSettings />} />
+        </Route>
 
-      {/* Dynamic Route */}
-      <Route path="/post/:postId" element={<Post />} />
+        {/* Dynamic Route */}
+        <Route path="/post/:postId" element={<Post />} />
 
-      {/* Fallback Route */}
-      <Route path="*" element={<h1>Page Not Found</h1>} />
-    </Routes>
+        {/* Fallback Route */}
+        <Route path="*" element={<h1>Page Not Found</h1>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
