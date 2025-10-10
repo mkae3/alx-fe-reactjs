@@ -1,29 +1,42 @@
 import React, { useState } from "react";
 
 const RegistrationForm = () => {
-  // Separate states for each input
+  // Separate state variables
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+
+  // Use plural form "errors" as required
+  const [errors, setErrors] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!username || !email || !password) {
-      setError("Please fill in all fields.");
+    // Basic validation with explicit checks
+    if (!username) {
+      setErrors("Username is required.");
       return;
     }
 
-    setError("");
+    if (!email) {
+      setErrors("Email is required.");
+      return;
+    }
+
+    if (!password) {
+      setErrors("Password is required.");
+      return;
+    }
+
+    // Clear errors if all fields are filled
+    setErrors("");
 
     // Simulate API call
     const userData = { username, email, password };
     console.log("User registered:", userData);
     alert(`User ${username} registered successfully!`);
 
-    // Reset form
+    // Reset form fields
     setUsername("");
     setEmail("");
     setPassword("");
@@ -57,7 +70,7 @@ const RegistrationForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {errors && <p style={{ color: "red" }}>{errors}</p>}
 
         <button type="submit">Register</button>
       </form>
