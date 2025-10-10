@@ -3,14 +3,14 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const FormikForm = () => {
-  // Initial values for the form
+  // Initial values
   const initialValues = {
     username: "",
     email: "",
     password: ""
   };
 
-  // Validation schema using Yup
+  // Validation schema
   const validationSchema = Yup.object({
     username: Yup.string().required("Username is required"),
     email: Yup.string()
@@ -26,8 +26,16 @@ const FormikForm = () => {
     console.log("Formik form submitted:", values);
     alert(`User ${values.username} registered successfully!`);
 
-    // Simulate mock API call
-    // Example: fetch("https://jsonplaceholder.typicode.com/users", { ... })
+    // Simulate API call
+    // Example:
+    // fetch("https://jsonplaceholder.typicode.com/users", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(values)
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => console.log("Response:", data));
+
     resetForm();
   };
 
